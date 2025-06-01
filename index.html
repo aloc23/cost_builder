@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Padel & Gym Build Cost Tool</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div style="text-align:center;">
+    <img src="club_logo.jpeg" alt="Club Logo" style="max-width:200px; margin-bottom:10px;">
+  </div>
+  <h1>Build Cost Calculator</h1>
+  <nav>
+    <button onclick="showTab('padel')">Padel</button>
+    <button onclick="showTab('gym')">Gym</button>
+    <button onclick="showTab('combined')">Combined</button>
+  </nav>
+
+  <div id="padel" class="tab">
+    <h2>Padel Club Costs</h2>
+    <label>Building Structure Cost: €<input type="number" id="padel_structure" value="500000"></label>
+    <label>Courts (x4): €<input type="number" id="padel_courts" value="100000"></label>
+    <label>Amenities: €<input type="number" id="padel_amenities" value="50000"></label>
+    <label>Ground Work: €<input type="number" id="padel_ground" value="250000"></label>
+
+    <h3>Overheads</h3>
+    <label><input type="checkbox" id="padel_overhead_toggle" checked> Use breakdown</label>
+    <div id="padel_overhead_breakdown">
+      <label>Utilities: €<input type="number" class="padel_overhead_item" value="12000"></label>
+      <label>Insurance: €<input type="number" class="padel_overhead_item" value="7000"></label>
+      <label>Accounts/Software: €<input type="number" class="padel_overhead_item" value="4000"></label>
+    </div>
+    <label>Total Overheads: €<input type="number" id="padel_overheads" value="52200"></label>
+
+    <h3>Staff</h3>
+    <label><input type="checkbox" id="padel_staff_toggle" checked> Use breakdown</label>
+    <div id="padel_staff_breakdown">
+      <label>Manager: €<input type="number" class="padel_staff_item" value="48000"></label>
+      <label>Coach: €<input type="number" class="padel_staff_item" value="25980"></label>
+      <label>Cleaning: €<input type="number" class="padel_staff_item" value="28000"></label>
+    </div>
+    <label>Total Staff Salaries: €<input type="number" id="padel_salaries" value="107176"></label>
+
+    <p>Total: €<span id="padel_total">0</span></p>
+  </div>
+
+  <div id="gym" class="tab" style="display:none;">
+    <h2>Gym Costs</h2>
+    <label>Equipment: €<input type="number" id="gym_equipment" value="90989"></label>
+    <label>Amenities: €<input type="number" id="gym_amenities" value="25000"></label>
+    <label>Flooring: €<input type="number" id="gym_flooring" value="20000"></label>
+
+    <h3>Overheads</h3>
+    <label><input type="checkbox" id="gym_overhead_toggle" checked> Use breakdown</label>
+    <div id="gym_overhead_breakdown">
+      <label>Utilities: €<input type="number" class="gym_overhead_item" value="30000"></label>
+      <label>Insurance: €<input type="number" class="gym_overhead_item" value="3000"></label>
+      <label>First Aid: €<input type="number" class="gym_overhead_item" value="1000"></label>
+    </div>
+    <label>Total Overheads: €<input type="number" id="gym_overheads" value="44400"></label>
+
+    <h3>Staff</h3>
+    <label><input type="checkbox" id="gym_staff_toggle" checked> Use breakdown</label>
+    <div id="gym_staff_breakdown">
+      <label>Manager: €<input type="number" class="gym_staff_item" value="48000"></label>
+      <label>Cleaning: €<input type="number" class="gym_staff_item" value="28000"></label>
+    </div>
+    <label>Total Staff Salaries: €<input type="number" id="gym_salaries" value="43691"></label>
+
+    <p>Total: €<span id="gym_total">0</span></p>
+  </div>
+
+  <div id="combined" class="tab" style="display:none;">
+    <h2>Combined Total</h2>
+    <p>Padel Total: €<span id="combined_padel">0</span></p>
+    <p>Gym Total: €<span id="combined_gym">0</span></p>
+    <h3>Grand Total (Initial Investment): €<span id="grand_total">0</span></h3>
+
+    <hr>
+    <h3>Financial Forecast</h3>
+    <label>Expected Monthly Revenue: €<input type="number" id="monthly_revenue" value="25000"></label>
+    <p>Annual Revenue: €<span id="annual_revenue">0</span></p>
+    <p>Annual Operating Cost: €<span id="annual_cost">0</span></p>
+    <p>Annual Profit/Loss: €<span id="annual_profit">0</span></p>
+    <p>ROI Period (Years): <span id="roi_years">0</span></p>
+    <p>Breakeven Monthly Revenue Needed: €<span id="breakeven_revenue">0</span></p>
+
+    <canvas id="costChart" width="400" height="200"></canvas>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
