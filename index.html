@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Padel & Gym Cost Planner</title>
+  <title>Padel & Gym Cost Builder</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -23,8 +24,22 @@
     <label>Courts: €<input type="number" id="padel_courts" value="100000" /></label>
     <label>Amenities: €<input type="number" id="padel_amenities" value="50000" /></label>
     <label>Ground Work: €<input type="number" id="padel_ground" value="250000" /></label>
-    <label>Overheads: €<input type="number" id="padel_overheads" value="52200" /></label>
-    <label>Staff: €<input type="number" id="padel_salaries" value="107176" /></label>
+    <h3>Overheads</h3>
+    <label><input type="checkbox" id="padel_overhead_toggle" checked> Use breakdown</label>
+    <div>
+      <label>Utilities: €<input type="number" class="padel_overhead_item" value="12000" /></label>
+      <label>Insurance: €<input type="number" class="padel_overhead_item" value="7000" /></label>
+      <label>Admin: €<input type="number" class="padel_overhead_item" value="8000" /></label>
+    </div>
+    <label>Total Overheads: €<input type="number" id="padel_overheads" value="52200" /></label>
+    <h3>Staff</h3>
+    <label><input type="checkbox" id="padel_staff_toggle" checked> Use breakdown</label>
+    <div>
+      <label>Manager: €<input type="number" class="padel_staff_item" value="48000" /></label>
+      <label>Coaches: €<input type="number" class="padel_staff_item" value="25980" /></label>
+      <label>Cleaning: €<input type="number" class="padel_staff_item" value="28000" /></label>
+    </div>
+    <label>Total Staff: €<input type="number" id="padel_salaries" value="107176" /></label>
     <p>Total: €<span id="padel_total">0</span></p>
   </div>
 
@@ -33,33 +48,44 @@
     <label>Equipment: €<input type="number" id="gym_equipment" value="90989" /></label>
     <label>Amenities: €<input type="number" id="gym_amenities" value="25000" /></label>
     <label>Flooring: €<input type="number" id="gym_flooring" value="20000" /></label>
-    <label>Overheads: €<input type="number" id="gym_overheads" value="44400" /></label>
-    <label>Staff: €<input type="number" id="gym_salaries" value="43691" /></label>
+    <h3>Overheads</h3>
+    <label><input type="checkbox" id="gym_overhead_toggle" checked> Use breakdown</label>
+    <div>
+      <label>Utilities: €<input type="number" class="gym_overhead_item" value="30000" /></label>
+      <label>Insurance: €<input type="number" class="gym_overhead_item" value="3000" /></label>
+    </div>
+    <label>Total Overheads: €<input type="number" id="gym_overheads" value="44400" /></label>
+    <h3>Staff</h3>
+    <label><input type="checkbox" id="gym_staff_toggle" checked> Use breakdown</label>
+    <div>
+      <label>Manager: €<input type="number" class="gym_staff_item" value="48000" /></label>
+      <label>Cleaning: €<input type="number" class="gym_staff_item" value="28000" /></label>
+    </div>
+    <label>Total Staff: €<input type="number" id="gym_salaries" value="43691" /></label>
     <p>Total: €<span id="gym_total">0</span></p>
   </div>
 
   <div id="combined" class="tab" style="display:none;">
-    <h2>Combined Total</h2>
-    <p>Padel Total: €<span id="combined_padel">0</span></p>
-    <p>Gym Total: €<span id="combined_gym">0</span></p>
-    <h3>Grand Total (Investment): €<span id="grand_total">0</span></h3>
+    <h2>Combined Totals</h2>
+    <p>Padel: €<span id="combined_padel">0</span></p>
+    <p>Gym: €<span id="combined_gym">0</span></p>
+    <p><strong>Grand Total: €<span id="grand_total">0</span></strong></p>
 
-    <hr />
     <h3>Revenue Breakdown</h3>
     <label>Court Bookings: €<input type="number" id="rev_courts" value="12000" /></label>
     <label>Gym Memberships: €<input type="number" id="rev_gym" value="8000" /></label>
     <label>Coaching: €<input type="number" id="rev_coaching" value="3000" /></label>
     <label>Other: €<input type="number" id="rev_other" value="2000" /></label>
-    <p>Total Monthly Revenue: €<span id="monthly_revenue_display">0</span></p>
+    <p>Monthly Revenue: €<span id="monthly_revenue_display">0</span></p>
 
-    <label><input type="checkbox" id="include_vat"> Include VAT</label>
+    <label><input type="checkbox" id="include_vat" /> Include VAT</label>
     <div id="vat_section" style="display:none;">
-      <label>VAT Rate (%): <input type="number" id="vat_rate" value="23"></label>
+      <label>VAT Rate (%): <input type="number" id="vat_rate" value="23" /></label>
       <p>VAT: €<span id="vat_amount">0</span></p>
-      <p>Revenue with VAT: €<span id="revenue_with_vat">0</span></p>
+      <p>Revenue incl. VAT: €<span id="revenue_with_vat">0</span></p>
     </div>
 
-    <h3>Financial Summary</h3>
+    <h3>ROI & Forecast</h3>
     <p>Annual Revenue: €<span id="annual_revenue">0</span></p>
     <p>Annual Costs: €<span id="annual_cost">0</span></p>
     <p>Profit: €<span id="annual_profit">0</span></p>

@@ -5,7 +5,22 @@ function showTab(tabId) {
   updateTotals();
 }
 
+function sumInputs(selector) {
+  return [...document.querySelectorAll(selector)].reduce((sum, input) => sum + (+input.value || 0), 0);
+}
+
+function updateBreakdownSum(selector, toggleId, totalId) {
+  if (document.getElementById(toggleId).checked) {
+    document.getElementById(totalId).value = sumInputs(selector);
+  }
+}
+
 function updateTotals() {
+  updateBreakdownSum(".padel_overhead_item", "padel_overhead_toggle", "padel_overheads");
+  updateBreakdownSum(".padel_staff_item", "padel_staff_toggle", "padel_salaries");
+  updateBreakdownSum(".gym_overhead_item", "gym_overhead_toggle", "gym_overheads");
+  updateBreakdownSum(".gym_staff_item", "gym_staff_toggle", "gym_salaries");
+
   const padelTotal = +document.getElementById('padel_structure').value +
                      +document.getElementById('padel_courts').value +
                      +document.getElementById('padel_amenities').value +
@@ -29,49 +44,45 @@ function updateTotals() {
 }
 
 function updateRevenue(investment) {
-  const revCourts = +document.getElementById('rev_courts').value;
-  const revGym = +document.getElementById('rev_gym').value;
-  const revCoach = +document.getElementById('rev_coaching').value;
-  const revOther = +document.getElementById('rev_other').value;
+  const courts = +document.getElementById('rev_courts').value;
+  const gym = +document.getElementById('rev_gym').value;
+  const coaching = +document.getElementById('rev_coaching').value;
+  const other = +document.getElementById('rev_other').value;
 
-  const monthlyRevenue = revCourts + revGym + revCoach + revOther;
+  const monthlyRevenue = courts + gym + coaching + other;
   const annualRevenue = monthlyRevenue * 12;
-
   document.getElementById('monthly_revenue_display').textContent = monthlyRevenue.toLocaleString();
 
-  // VAT
   const vatChecked = document.getElementById('include_vat').checked;
   const vatRate = +document.getElementById('vat_rate').value / 100;
+  const vatAmount = monthlyRevenue * vatRate;
+
   if (vatChecked) {
     document.getElementById('vat_section').style.display = 'block';
-    const vatAmount = monthlyRevenue * vatRate;
     document.getElementById('vat_amount').textContent = vatAmount.toFixed(2);
     document.getElementById('revenue_with_vat').textContent = (monthlyRevenue + vatAmount).toFixed(2);
   } else {
     document.getElementById('vat_section').style.display = 'none';
   }
 
-  // Costs
-  const annualCost = (
-    +document.getElementById('padel_salaries').value +
-    +document.getElementById('padel_overheads').value +
-    +document.getElementById('gym_salaries').value +
-    +document.getElementById('gym_overheads').value
-  );
+  const annualCost = +document.getElementById('padel_salaries').value +
+                     +document.getElementById('padel_overheads').value +
+                     +document.getElementById('gym_salaries').value +
+                     +document.getElementById('gym_overheads').value;
 
   const profit = annualRevenue - annualCost;
-  const roiYears = investment > 0 && profit > 0 ? (investment / profit).toFixed(2) : "N/A";
+  const roi = investment > 0 && profit > 0 ? (investment / profit).toFixed(2) : "N/A";
 
   document.getElementById('annual_revenue').textContent = annualRevenue.toLocaleString();
   document.getElementById('annual_cost').textContent = annualCost.toLocaleString();
   document.getElementById('annual_profit').textContent = profit.toLocaleString();
-  document.getElementById('roi_years').textContent = roiYears;
+  document.getElementById('roi_years').textContent = roi;
 
-  updateChart(padelTotal, gymTotal);
+  updateChart(padelTotal = investment - gymTotal, gymTotal);
 }
 
 let costChart;
-function updateChart(padelTotal, gymTotal) {
+function updateChart(padel, gym) {
   const ctx = document.getElementById('costChart').getContext('2d');
   if (costChart) costChart.destroy();
   costChart = new Chart(ctx, {
@@ -79,8 +90,8 @@ function updateChart(padelTotal, gymTotal) {
     data: {
       labels: ['Padel', 'Gym'],
       datasets: [{
-        data: [padelTotal, gymTotal],
-        backgroundColor: ['#FFC107', '#03A9F4']
+        data: [padel, gym],
+        backgroundColor: ['#FFC107', '#2196F3']
       }]
     },
     options: {
@@ -93,7 +104,7 @@ function updateChart(padelTotal, gymTotal) {
   });
 }
 
-document.querySelectorAll('input[type="number"]').forEach(input => {
+document.querySelectorAll('input').forEach(input => {
   input.addEventListener('input', updateTotals);
 });
 document.getElementById('include_vat').addEventListener('change', updateTotals);
